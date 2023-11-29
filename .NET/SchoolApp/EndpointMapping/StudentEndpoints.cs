@@ -16,7 +16,8 @@ public static class StudentEndpoints
         group.MapGet("", async ([FromServices] ISender sender) => 
         {
             var students = await sender.Send(new GetStudentsQuery());
-            return TypedResults.Ok(students);
+            return students;
+            //return TypedResults.Ok(students);
         });
 
         group.MapPost("", async ([FromServices] ISender sender, [FromBody] CreateStudentDto dto) =>
@@ -27,6 +28,16 @@ public static class StudentEndpoints
             });
 
             return TypedResults.Ok(student);
+        });
+
+        group.MapDelete("/{id:int}", async ([FromServices] ISender sender, [FromRoute] int id) =>
+        {
+            await sender.Send(new DeleteStudentCommand
+            {
+                Id = id
+            });
+
+            return TypedResults.NoContent();
         });
 
         return group;
