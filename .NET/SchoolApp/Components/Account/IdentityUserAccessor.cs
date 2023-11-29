@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using SchoolApp.Data;
+using SchoolApp.Data.Access;
 
 namespace SchoolApp.Components.Account;
 internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager)

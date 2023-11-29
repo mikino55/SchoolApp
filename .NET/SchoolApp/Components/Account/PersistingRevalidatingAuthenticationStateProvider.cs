@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SchoolApp.Client;
 using SchoolApp.Data;
+using SchoolApp.Data.Access;
 using System.Diagnostics;
 using System.Security.Claims;
 

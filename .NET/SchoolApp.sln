@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp", "SchoolApp\SchoolApp.csproj", "{2A93A450-B153-48FE-9F27-51DCE6C6E45D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolApp", "SchoolApp\SchoolApp.csproj", "{2A93A450-B153-48FE-9F27-51DCE6C6E45D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Client", "SchoolApp.Client\SchoolApp.Client.csproj", "{24FEA3EE-8E68-4DFE-86CD-4B3FEB3E98F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolApp.Client", "SchoolApp.Client\SchoolApp.Client.csproj", "{24FEA3EE-8E68-4DFE-86CD-4B3FEB3E98F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data", "SchoolApp.Data\SchoolApp.Data.csproj", "{86049F8E-117C-4C88-8010-A7945E96B4A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data.Access", "SchoolApp.Data.Access\SchoolApp.Data.Access.csproj", "{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{24FEA3EE-8E68-4DFE-86CD-4B3FEB3E98F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24FEA3EE-8E68-4DFE-86CD-4B3FEB3E98F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24FEA3EE-8E68-4DFE-86CD-4B3FEB3E98F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86049F8E-117C-4C88-8010-A7945E96B4A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86049F8E-117C-4C88-8010-A7945E96B4A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86049F8E-117C-4C88-8010-A7945E96B4A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86049F8E-117C-4C88-8010-A7945E96B4A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

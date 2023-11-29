@@ -7,6 +7,7 @@ using Microsoft.Extensions.Primitives;
 using SchoolApp.Components.Account.Pages;
 using SchoolApp.Components.Account.Pages.Manage;
 using SchoolApp.Data;
+using SchoolApp.Data.Access;
 using System.Security.Claims;
 using System.Text.Json;
 
