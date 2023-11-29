@@ -43,6 +43,7 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR((o) => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddCors();
 
 WebApplication app = builder.Build();
 
@@ -69,6 +70,16 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Counter).Assembly);
+
+// https://jasonwatmore.com/post/2020/05/20/aspnet-core-api-allow-cors-requests-from-any-origin-and-with-credentials
+// global cors policy
+var allowedHosts = new []{ "^(www.)?localhost" };
+app.UseCors(x => x
+    .SetIsOriginAllowed((url) => allowedHosts.Contains(url)).
+    AllowCredentials().
+    AllowAnyHeader().
+    AllowAnyMethod());
+
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();

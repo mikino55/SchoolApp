@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolApp.Data;
 using SchoolApp.Endpoints.Students;
 
 namespace SchoolApp.EndpointMapping;
@@ -15,7 +16,7 @@ public static class StudentEndpoints
         group.MapGet("", async ([FromServices] ISender sender) => 
         {
             var students = await sender.Send(new GetStudentsQuery());
-            return students;
+            return TypedResults.Ok(students);
         });
 
         group.MapPost("", async ([FromServices] ISender sender, [FromBody] CreateStudentDto dto) =>
@@ -25,7 +26,7 @@ public static class StudentEndpoints
                 Student = dto
             });
 
-            return student;
+            return TypedResults.Ok(student);
         });
 
         return group;
