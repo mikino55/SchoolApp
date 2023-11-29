@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolApp;
 using SchoolApp.Client.Pages;
 using SchoolApp.Components;
 using SchoolApp.Components.Account;
@@ -75,10 +76,10 @@ app.MapRazorComponents<App>()
 // global cors policy
 var allowedHosts = new []{ "^(www.)?localhost" };
 app.UseCors(x => x
-    .SetIsOriginAllowed((url) => allowedHosts.Contains(url)).
-    AllowCredentials().
-    AllowAnyHeader().
-    AllowAnyMethod());
+     .SetIsOriginAllowed((url) => CorsHelper.IsCorsOriginAllowed(url, allowedHosts))
+    .AllowCredentials()
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 
 
 // Add additional endpoints required by the Identity /Account Razor components.
