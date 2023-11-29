@@ -1,0 +1,17 @@
+@baseUrl=http://localhost:5025/api
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+POST {{baseUrl}}/student
+Content-Type: application/json
+
+{
+  "firstName" : "Michal",
+  "lastName" : "Supolik"
+}
+
+###
+
+GET {{baseUrl}}/student
+
+
+

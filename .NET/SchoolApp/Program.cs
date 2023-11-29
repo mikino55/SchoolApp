@@ -6,6 +6,7 @@ using SchoolApp.Components;
 using SchoolApp.Components.Account;
 using SchoolApp.Data;
 using SchoolApp.Data.Access;
+using SchoolApp.EndpointMapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,12 +38,20 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-var app = builder.Build();
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddMediatR((o) => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -63,5 +72,7 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+app.MapStudentEndpoints();
 
 app.Run();
