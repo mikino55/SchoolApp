@@ -7,3 +7,7 @@
 /.NET/SchoolApp.Client/bin/Debug/net8.0
 /.NET/SchoolApp.Client/obj
 /.NET/.vs
+/.NET/SchoolApp.Data/bin/Debug/net8.0
+/.NET/SchoolApp.Data/obj
+/.NET/SchoolApp.Data.Access/bin/Debug/net8.0
+/.NET/SchoolApp.Data.Access/obj
