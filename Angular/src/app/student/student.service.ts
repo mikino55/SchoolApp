@@ -11,7 +11,7 @@ import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 })
 export class StudentService {
 
-  url = 'http://localhost:3000/students';
+  url = 'https://localhost:7099/api/student';
 
   constructor(private http: HttpClient) {
 
