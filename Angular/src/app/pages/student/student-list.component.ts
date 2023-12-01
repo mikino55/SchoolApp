@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [CommonModule, RouterLink, MatTableModule, MatButtonModule],
   templateUrl: './student-list.component.html',
-  styleUrl: './student-list.component.css'
 })
 export class StudentListComponent implements OnInit {
   students: Student[] = [];
