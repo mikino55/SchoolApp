@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StudentService } from './student.service';
+import { StudentService } from '../../core/services/student.service';
 import { Student } from './student';
 import { RouterLink, Router } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatCardModule } from '@angular/material/card';
 
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { StudentService } from './student.service';
+import { StudentService } from '../../core/services/student.service';
 import { Student } from './student';
 import { UntypedFormBuilder, UntypedFormGroup, FormsModule, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
