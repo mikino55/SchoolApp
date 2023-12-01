@@ -21,21 +21,27 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    })
-    .AddIdentityCookies();
+//builder.Services.AddAuthentication(options =>
+//    {
+//        options.DefaultScheme = IdentityConstants.ApplicationScheme;
+//        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+//    })
+//    .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager()
-    .AddDefaultTokenProviders();
+//builder.Services.AddIdentityApiEndpoints<ApplicationUser>();
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>((o =>
+{
+    o.SignIn.RequireConfirmedAccount = false;
+    o.Password.RequireNonAlphanumeric = false;
+    o.Password.RequireDigit = false;
+    o.Password.RequireUppercase = false;
+    o.Password.RequireLowercase = false;
+}))
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
@@ -64,6 +70,7 @@ else
 
 app.UseHttpsRedirection();
 
+app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
