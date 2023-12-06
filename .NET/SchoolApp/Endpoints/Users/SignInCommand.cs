@@ -56,7 +56,7 @@ public class SignInCommandHandler(
 
         var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
 
-        return new SignInResponse("token");
+        return new SignInResponse(token);
     }
 }
 
