@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SchoolApp;
 using SchoolApp.Client.Pages;
 using SchoolApp.Components;
@@ -8,20 +11,24 @@ using SchoolApp.Components.Account;
 using SchoolApp.Data;
 using SchoolApp.Data.Access;
 using SchoolApp.EndpointMapping;
+using SchoolApp.Infrastructure.Configuration;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var services = builder.Services;
+
 // Add services to the container.
-builder.Services.AddRazorComponents()
+services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddScoped<IdentityUserAccessor>();
-builder.Services.AddScoped<IdentityRedirectManager>();
-builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+services.AddCascadingAuthenticationState();
+services.AddScoped<IdentityUserAccessor>();
+services.AddScoped<IdentityRedirectManager>();
+services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
 
-//builder.Services.AddAuthentication(options =>
+//services.AddAuthentication(options =>
 //    {
 //        options.DefaultScheme = IdentityConstants.ApplicationScheme;
 //        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
@@ -29,11 +36,11 @@ builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAu
 //    .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//builder.Services.AddIdentityApiEndpoints<ApplicationUser>();
-builder.Services.AddIdentityApiEndpoints<ApplicationUser>((o =>
+//services.AddIdentityApiEndpoints<ApplicationUser>();
+services.AddIdentityApiEndpoints<ApplicationUser>((o =>
 {
     o.SignIn.RequireConfirmedAccount = false;
     o.Password.RequireNonAlphanumeric = false;
@@ -43,14 +50,21 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>((o =>
 }))
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR((o) => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
-builder.Services.AddCors();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+services.AddMediatR((o) => o.RegisterServicesFromAssembly(typeof(Program).Assembly));
+services.AddCors();
+
+
+services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.JwtOptionsName));
+//services.Configure<JwtOptions>();
+services.ConfigureOptions<JwtBearerOptionsSetup>();
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer();
 
 WebApplication app = builder.Build();
 
@@ -70,7 +84,10 @@ else
 
 app.UseHttpsRedirection();
 
-app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
+app.UseAuthentication();
+app.UseAuthorization();
+
+//app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
@@ -93,5 +110,6 @@ app.UseCors(x => x
 app.MapAdditionalIdentityEndpoints();
 
 app.MapStudentEndpoints();
+app.MapUserEndpoints();
 
 app.Run();

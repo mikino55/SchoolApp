@@ -11,3 +11,5 @@
 /.NET/SchoolApp.Data/obj
 /.NET/SchoolApp.Data.Access/bin/Debug/net8.0
 /.NET/SchoolApp.Data.Access/obj
+/.NET/SchoolApp.Infrastructure/bin/Debug/net8.0
+/.NET/SchoolApp.Infrastructure/obj

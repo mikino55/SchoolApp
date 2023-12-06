@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolApp", "SchoolApp\Scho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolApp.Client", "SchoolApp.Client\SchoolApp.Client.csproj", "{24FEA3EE-8E68-4DFE-86CD-4B3FEB3E98F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data", "SchoolApp.Data\SchoolApp.Data.csproj", "{86049F8E-117C-4C88-8010-A7945E96B4A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolApp.Data", "SchoolApp.Data\SchoolApp.Data.csproj", "{86049F8E-117C-4C88-8010-A7945E96B4A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Data.Access", "SchoolApp.Data.Access\SchoolApp.Data.Access.csproj", "{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolApp.Data.Access", "SchoolApp.Data.Access\SchoolApp.Data.Access.csproj", "{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolApp.Infrastructure", "SchoolApp.Infrastructure\SchoolApp.Infrastructure.csproj", "{FDC5146D-AC69-4286-8BBA-FC3547A5B735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7562A17F-9C9A-40A0-8FAE-713A4BC80DB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC5146D-AC69-4286-8BBA-FC3547A5B735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC5146D-AC69-4286-8BBA-FC3547A5B735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC5146D-AC69-4286-8BBA-FC3547A5B735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC5146D-AC69-4286-8BBA-FC3547A5B735}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

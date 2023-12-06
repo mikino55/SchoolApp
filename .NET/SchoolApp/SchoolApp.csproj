@@ -10,14 +10,12 @@
   <ItemGroup>
     <ProjectReference Include="..\SchoolApp.Client\SchoolApp.Client.csproj" />
     <ProjectReference Include="..\SchoolApp.Data.Access\SchoolApp.Data.Access.csproj" />
+    <ProjectReference Include="..\SchoolApp.Infrastructure\SchoolApp.Infrastructure.csproj" />
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
 	<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EndpointMapping\" />
   </ItemGroup>
 
 </Project>
