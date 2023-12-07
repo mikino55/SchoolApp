@@ -18,4 +18,8 @@
     <ProjectReference Include="..\SchoolApp.Data\SchoolApp.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

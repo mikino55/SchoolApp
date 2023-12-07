@@ -7,10 +7,9 @@ namespace SchoolApp.Endpoints.Students;
 
 public class GetStudentsQuery : IRequest<List<StudentDto>>
 {
-    public StudentDto Student { get; set; }
 }
 
-public record StudentDto(int Id, string FirstName, string LastName);
+public record StudentDto(string Id, string Email, string FirstName, string LastName);
 
 public class GetStudentsQueryHandler : IRequestHandler<GetStudentsQuery, List<StudentDto>>
 {
@@ -23,9 +22,13 @@ public class GetStudentsQueryHandler : IRequestHandler<GetStudentsQuery, List<St
 
     public async Task<List<StudentDto>> Handle(GetStudentsQuery request, CancellationToken cancellationToken)
     {
-        var students = await context.Students.ToListAsync();
+        var students = await context.Users
+            .AsNoTracking()
+            .Where(x => x.UserType == UserType.Student)
+            .ToListAsync();
+
         return students
-            .Select(s => new StudentDto(s.Id, s.FirstName, s.LastName))
+            .Select(s => new StudentDto(s.Id, s.Email!, s.FirstName, s.LastName))
             .ToList();
     }
 }

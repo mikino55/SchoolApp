@@ -6,7 +6,7 @@ namespace SchoolApp.Endpoints.Students;
 
 public class DeleteStudentCommand : IRequest
 {
-    public int Id { get; set; }
+    public required string Id { get; set; }
 }
 
 public class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommand>
@@ -19,8 +19,8 @@ public class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommand>
     }
     public async Task Handle(DeleteStudentCommand request, CancellationToken cancellationToken)
     {
-        var rowsAffected = await this.context.Students
-            .Where(s => s.Id == request.Id)
+        var rowsAffected = await this.context.Users
+            .Where(s => s.Id == request.Id.ToString())
             .ExecuteDeleteAsync(cancellationToken);
 
         if (rowsAffected == 0) 

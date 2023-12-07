@@ -6,7 +6,7 @@ namespace SchoolApp.Endpoints.Students;
 
 public class GetStudentDetailsQuery : IRequest<StudentDto>
 {
-    public int Id { get; set; }
+    public required string Id { get; set; }
 }
 
 public class GetStudentDetailsQueryHandler : IRequestHandler<GetStudentDetailsQuery, StudentDto>
@@ -19,12 +19,17 @@ public class GetStudentDetailsQueryHandler : IRequestHandler<GetStudentDetailsQu
     }
     public async Task<StudentDto> Handle(GetStudentDetailsQuery request, CancellationToken cancellationToken)
     {
-        var student = await this.context.Students.FirstOrDefaultAsync(x => x.Id == request.Id)
+        var student = await this.context
+            .Users
+            .Where(x => x.UserType == Data.UserType.Student)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == request.Id)
             ?? throw new Exception("Not found");
 
         return new StudentDto
         ( 
             student.Id,
+            student.Email!,
             student.FirstName,
             student.LastName
         );

@@ -1,24 +1,20 @@
 ﻿using MediatR;
 using SchoolApp.Data;
 using SchoolApp.Data.Access;
+using SchoolApp.Data.Access.Providers;
 
 namespace SchoolApp.Endpoints.Students;
 
 public class CreateStudentCommand : IRequest<StudentDto>
 {
-    public CreateStudentDto Student { get; set; }
+    public required CreateStudentRequest Student { get; set; }
 }
 
-public record CreateStudentDto(string FirstName, string LastName);
+public record CreateStudentRequest(string Email, string FirstName, string LastName);
 
-public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand, StudentDto>
+public class CreateStudentCommandHandler(IUserRegistrationProvider registrationProvider) : IRequestHandler<CreateStudentCommand, StudentDto>
 {
-    private readonly ApplicationDbContext context;
-
-    public CreateStudentCommandHandler(ApplicationDbContext context)
-    {
-        this.context = context;
-    }
+    private readonly IUserRegistrationProvider registrationProvider = registrationProvider;
 
     public async Task<StudentDto> Handle(CreateStudentCommand request, CancellationToken cancellationToken)
     {
@@ -26,10 +22,10 @@ public class CreateStudentCommandHandler : IRequestHandler<CreateStudentCommand,
         {
             FirstName = request.Student.FirstName,
             LastName = request.Student.LastName,
+            Email = request.Student.Email,
         };
 
-        this.context.Students.Add(student);
-        await this.context.SaveChangesAsync();
-        return new StudentDto(student.Id, student.FirstName, student.LastName);
+        await this.registrationProvider.RegisterStudentAsync(student, "abc123");
+        return new StudentDto(student.Id, student.Email, student.FirstName, student.LastName);
     }
 }

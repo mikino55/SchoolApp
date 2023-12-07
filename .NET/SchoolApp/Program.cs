@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SchoolApp;
 using SchoolApp.Client.Pages;
@@ -11,12 +9,10 @@ using SchoolApp.Components;
 using SchoolApp.Components.Account;
 using SchoolApp.Data;
 using SchoolApp.Data.Access;
+using SchoolApp.Data.Access.Providers;
 using SchoolApp.EndpointMapping;
-using SchoolApp.Endpoints.Users;
 using SchoolApp.Extensions;
 using SchoolApp.Infrastructure.Configuration;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,21 +28,33 @@ services.AddCascadingAuthenticationState();
 services.AddScoped<IdentityUserAccessor>();
 services.AddScoped<IdentityRedirectManager>();
 services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+services.AddTransient<IUserRegistrationProvider, UserRegistrationProvider>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-//services.AddIdentityApiEndpoints<ApplicationUser>();
-services.AddIdentityApiEndpoints<User>((o =>
+services.AddDefaultIdentity<User>((o =>
 {
     o.SignIn.RequireConfirmedAccount = false;
     o.Password.RequireNonAlphanumeric = false;
     o.Password.RequireDigit = false;
     o.Password.RequireUppercase = false;
     o.Password.RequireLowercase = false;
+    o.User.RequireUniqueEmail = false;
 }))
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+//services.AddIdentityApiEndpoints<User>((o =>
+//{
+//    o.SignIn.RequireConfirmedAccount = false;
+//    o.Password.RequireNonAlphanumeric = false;
+//    o.Password.RequireDigit = false;
+//    o.Password.RequireUppercase = false;
+//    o.Password.RequireLowercase = false;
+//}))
+//    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
 
@@ -103,7 +111,7 @@ app.UseAuthentication();
 app.UseIdentity();
 app.UseAuthorization();
 
-//app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
+//app.MapGroup("/account").MapIdentityApi<User>();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
@@ -126,6 +134,9 @@ app.UseCors(x => x
 //app.MapAdditionalIdentityEndpoints();
 app.MapStudentEndpoints();
 app.MapUserEndpoints();
+app.MapTecherEndpoints();
 
+
+//await SeedData.Seed(app.Services);
 
 app.Run();
