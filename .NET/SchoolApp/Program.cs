@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +12,11 @@ using SchoolApp.Components.Account;
 using SchoolApp.Data;
 using SchoolApp.Data.Access;
 using SchoolApp.EndpointMapping;
+using SchoolApp.Endpoints.Users;
+using SchoolApp.Extensions;
 using SchoolApp.Infrastructure.Configuration;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,13 +32,6 @@ services.AddCascadingAuthenticationState();
 services.AddScoped<IdentityUserAccessor>();
 services.AddScoped<IdentityRedirectManager>();
 services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
-
-//services.AddAuthentication(options =>
-//    {
-//        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-//        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-//    })
-//    .AddIdentityCookies();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 services.AddDbContext<ApplicationDbContext>(options =>
@@ -61,10 +59,27 @@ services.AddCors();
 
 
 services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.JwtOptionsName));
-//services.Configure<JwtOptions>();
-services.ConfigureOptions<JwtBearerOptionsSetup>();
-services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+{
+    // find the way how to inject JwtOptions into this configuration, last attemp did not work, 
+    var section = builder.Configuration.GetSection(JwtOptions.JwtOptionsName);
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = section.GetValue<string>(nameof(JwtOptions.Issuer)),
+        ValidAudience = section.GetValue<string>(nameof(JwtOptions.Audience)),
+        IssuerSigningKey = new SymmetricSecurityKey
+            (Encoding.UTF8.GetBytes(section.GetValue<string>(nameof(JwtOptions.Key))!)),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true
+    };
+});
+
+builder.Services.AddAuthorization();
+
 
 WebApplication app = builder.Build();
 
@@ -85,6 +100,7 @@ else
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+//app.UseIdentity();
 app.UseAuthorization();
 
 //app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
@@ -107,9 +123,9 @@ app.UseCors(x => x
 
 
 // Add additional endpoints required by the Identity /Account Razor components.
-app.MapAdditionalIdentityEndpoints();
-
+//app.MapAdditionalIdentityEndpoints();
 app.MapStudentEndpoints();
 app.MapUserEndpoints();
+
 
 app.Run();

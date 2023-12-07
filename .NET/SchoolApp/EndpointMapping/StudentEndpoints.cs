@@ -17,7 +17,7 @@ public static class StudentEndpoints
         {
             var students = await sender.Send(new GetStudentsQuery());
             return TypedResults.Ok(students);
-        });
+        }).RequireAuthorization();
 
         group.MapGet("/{id:int}", async ([FromServices] ISender sender, [FromRoute] int id) =>
         {

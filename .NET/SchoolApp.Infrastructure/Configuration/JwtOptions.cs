@@ -12,9 +12,9 @@ public class JwtOptions
 {
     public required string Issuer { get; set; }
     public required string Audience { get; set; }
-    public required string Secret { get; set; }
+    public required string Key { get; set; }
 
-    public const string JwtOptionsName = "JwtOptions";
+    public const string JwtOptionsName = "Jwt";
 }
 
 public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
@@ -30,6 +30,6 @@ public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
         var section = this.configuration.GetSection(JwtOptions.JwtOptionsName);
         options.Issuer = section.GetValue<string>(nameof(JwtOptions.Issuer))!;
         options.Audience = section.GetValue<string>(nameof(JwtOptions.Audience))!;
-        options.Secret = section.GetValue<string>(nameof(JwtOptions.Secret))!;
+        options.Key = section.GetValue<string>(nameof(JwtOptions.Key))!;
     }
 }

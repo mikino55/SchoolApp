@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using SchoolApp.Components.Account.Pages;
 using SchoolApp.Data.Access;
 using SchoolApp.Infrastructure.Configuration;
 using System.IdentityModel.Tokens.Jwt;
@@ -39,23 +38,23 @@ public class SignInCommandHandler(
             ?? throw new Exception("User not found");
 
         var jwtOptionsValue = this.jwtOptions.Value;
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptionsValue.Secret));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptionsValue.Key));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-        
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Email, user.Email!),
         };
 
-        var Sectoken = new JwtSecurityToken(jwtOptionsValue.Issuer,
+        var Sectoken = new JwtSecurityToken(
+            jwtOptionsValue.Issuer,
           jwtOptionsValue.Audience,
           claims,
           expires: DateTime.Now.AddMinutes(120),
           signingCredentials: credentials);
 
         var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
-
         return new SignInResponse(token);
     }
 }
