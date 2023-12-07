@@ -100,7 +100,7 @@ else
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
-//app.UseIdentity();
+app.UseIdentity();
 app.UseAuthorization();
 
 //app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
