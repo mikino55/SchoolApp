@@ -23,7 +23,6 @@ import { MatCardModule } from '@angular/material/card';
       MatCardModule,
       MatButtonModule],
   templateUrl: './student-details.component.html',
-  styleUrl: './student-details.component.css'
 })
 export class StudentDetailsComponent implements OnInit {
   student: Student;
