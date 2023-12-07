@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using SchoolApp.Data;
 using SchoolApp.Data.Access;
 using SchoolApp.Infrastructure.Configuration;
 using System.IdentityModel.Tokens.Jwt;
