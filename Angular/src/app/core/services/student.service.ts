@@ -25,7 +25,7 @@ export class StudentService {
       );
   }
 
-  getStudent(id: Number): Observable<Student> {
+  getStudent(id: string): Observable<Student> {
     return this.http.get<Student>(this.url + "/" + id)
       .pipe(
         tap(_ => console.log('fetched student id' + id)),
@@ -51,7 +51,7 @@ export class StudentService {
       );
   }
 
-  deleteStudent(id: Number): Observable<Student> {
+  deleteStudent(id: string): Observable<Student> {
     return this.http.delete<Student>(
       `${this.url}/${id}`)
       .pipe(

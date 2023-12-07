@@ -41,8 +41,11 @@ export class StudentDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!);
-    this.isNew = Number.isNaN(id);
+    const id = this.route.snapshot.paramMap.get('id')!;
+    if (id === null || id === '')
+      this.isNew = true;
+
+    console.log('isNew ' + this.isNew);
     console.log('StudentId ' + id);
     if (this.isNew) {
       this.title = 'Create new student';
@@ -56,6 +59,13 @@ export class StudentDetailsComponent implements OnInit {
 
   initializeForm() {
     this.studentForm = this.fb.group({
+      email: [
+        {
+          value: this.student.email,
+          disabled: false,
+        },
+        [Validators.required, Validators.maxLength(64), Validators.email],
+      ],
       firstName: [
         {
           value: this.student.firstName,
@@ -77,8 +87,9 @@ export class StudentDetailsComponent implements OnInit {
   save(): void {
     
     if (this.studentForm.valid) {
-      this.student.firstName = this.studentForm.controls['firstName'].value;
-      this.student.lastName = this.studentForm.controls['lastName'].value;
+      this.student.email = this.studentForm.value.email;
+      this.student.firstName = this.studentForm.value.firstName;
+      this.student.lastName = this.studentForm.value.lastName;
       console.log('form is valid');
       if (this.isNew) {
         console.log('creating student');
@@ -93,7 +104,7 @@ export class StudentDetailsComponent implements OnInit {
       }
     }
   }
-  getStudent(id: number): void {
+  getStudent(id: string): void {
     this.studentService.getStudent(id)
       .subscribe(student => {
         this.student = student;

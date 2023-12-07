@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class StudentListComponent implements OnInit {
   students: Student[] = [];
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'actions'];
+  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'actions'];
   constructor(private studentService: StudentService, private router: Router) {
 
   }
@@ -39,7 +39,7 @@ export class StudentListComponent implements OnInit {
   details(id: Number): void {
     this.router.navigateByUrl(`student/${id}`);
   }
-  deleteStudent(id: Number): void {
+  deleteStudent(id: string): void {
     this.studentService
       .deleteStudent(id)
       .subscribe(_ => this.getStudents());
