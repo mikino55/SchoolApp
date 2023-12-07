@@ -38,7 +38,7 @@ services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 //services.AddIdentityApiEndpoints<ApplicationUser>();
-services.AddIdentityApiEndpoints<ApplicationUser>((o =>
+services.AddIdentityApiEndpoints<User>((o =>
 {
     o.SignIn.RequireConfirmedAccount = false;
     o.Password.RequireNonAlphanumeric = false;
@@ -48,7 +48,7 @@ services.AddIdentityApiEndpoints<ApplicationUser>((o =>
 }))
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+services.AddSingleton<IEmailSender<User>, IdentityNoOpEmailSender>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

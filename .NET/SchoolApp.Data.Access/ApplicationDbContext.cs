@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolApp.Data.Access.Configurations;
 
 namespace SchoolApp.Data.Access;
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<User>(options)
 {
     public DbSet<Student> Students { get; set; }
 

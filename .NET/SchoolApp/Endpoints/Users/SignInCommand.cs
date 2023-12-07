@@ -17,12 +17,12 @@ public class SignInCommand : IRequest<SignInResponse>
 }
 
 public class SignInCommandHandler(
-    SignInManager<ApplicationUser> signInManager,
-    UserManager<ApplicationUser> userManager,
+    SignInManager<User> signInManager,
+    UserManager<User> userManager,
     IOptions<JwtOptions> jwtOptions) : IRequestHandler<SignInCommand, SignInResponse>
 {
-    private readonly SignInManager<ApplicationUser> signInManager = signInManager;
-    private readonly UserManager<ApplicationUser> userManager = userManager;
+    private readonly SignInManager<User> signInManager = signInManager;
+    private readonly UserManager<User> userManager = userManager;
     private readonly IOptions<JwtOptions> jwtOptions = jwtOptions;
 
     public async Task<SignInResponse> Handle(SignInCommand request, CancellationToken cancellationToken)
