@@ -25,8 +25,7 @@ public class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommand>
 
         if (rowsAffected == 0) 
         {
-            // TODO: throw Api Exception
-            throw new Exception("Not found");
+            throw new ApiException(HttpStatusCode.NotFound, $"Student(Id='{request.Id}') does not exist", "Can not delete student because it does not exist!");
         }
     }
 }

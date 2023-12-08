@@ -91,6 +91,7 @@ builder.Services.AddAuthorization();
 
 WebApplication app = builder.Build();
 
+app.UseCustomExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

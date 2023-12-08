@@ -8,4 +8,9 @@ public static class MiddlewareExtensions
     {
         return builder.UseMiddleware<UserIdentityMiddleware>();
     }
+
+    public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<ExceptionMiddleware>();
+    }
 }

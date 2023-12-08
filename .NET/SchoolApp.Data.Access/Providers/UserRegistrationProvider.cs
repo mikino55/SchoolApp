@@ -37,6 +37,10 @@ public class UserRegistrationProvider(
         await this.userStore.SetUserNameAsync(user, user.Email, CancellationToken.None);
         await emailStore.SetEmailAsync(user, user.Email, CancellationToken.None);
         var result = await this.userManager.CreateAsync(user, password);
+        if (!result.Succeeded) 
+        {
+            throw new ApiException(HttpStatusCode.InternalServerError, string.Join(", ", result.Errors.Select(x => x.Description)), "Failed to create user");
+        }
         await this.userManager.AddToRoleAsync(user, role);
         return user;
     }

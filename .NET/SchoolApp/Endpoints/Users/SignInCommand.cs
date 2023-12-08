@@ -31,12 +31,11 @@ public class SignInCommandHandler(
 
         if (!result.Succeeded)
         {
-            // TODO: throw Api Exception
-            throw new Exception("Sign failed");
+            throw new ApiException(HttpStatusCode.InternalServerError, "Invalid username or password");
         }
 
         var user = await this.userManager.FindByEmailAsync(request.Request.Email)
-            ?? throw new Exception("User not found");
+            ?? throw new ApiException(HttpStatusCode.InternalServerError, "Invalid username or password");
 
         var jwtOptionsValue = this.jwtOptions.Value;
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptionsValue.Key));
